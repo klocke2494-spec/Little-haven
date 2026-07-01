@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Little Haven</title>
+  <meta name="theme-color" content="#8d9f68" />
+  <link rel="manifest" href="manifest.json" />
+  <style>
+    :root{
+      --cream:#fff8ec;
+      --paper:#fffdf7;
+      --ink:#473425;
+      --muted:#8a7764;
+      --sage:#8d9f68;
+      --sage-dark:#66784a;
+      --gold:#efbd64;
+      --peach:#f5b8a9;
+      --lav:#b9a4d7;
+      --sky:#cfe3df;
+      --line:#eadcc9;
+      --shadow:0 14px 34px rgba(90,62,38,.12);
+      --radius:24px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+      background:
+        radial-gradient(circle at top left, #fff4d8 0, transparent 34%),
+        radial-gradient(circle at top right, #dcefe9 0, transparent 30%),
+        linear-gradient(180deg,#fff8ec,#f8efdf 70%,#f4ead9);
+      color:var(--ink);
+      min-height:100vh;
+    }
+    button,input,textarea,select{font:inherit}
+    .app{max-width:520px;margin:0 auto;min-height:100vh;padding-bottom:94px}
+    header{padding:22px 18px 8px;position:sticky;top:0;z-index:5;background:linear-gradient(180deg,rgba(255,248,236,.98),rgba(255,248,236,.86),rgba(255,248,236,0))}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .brand{display:flex;align-items:center;gap:10px}
+    .logo{width:46px;height:46px;border-radius:16px;background:var(--sage);display:grid;place-items:center;box-shadow:var(--shadow);font-size:26px}
+    h1{font-size:28px;line-height:1;margin:0;letter-spacing:-.7px}
+    .tag{color:var(--muted);font-size:13px;margin-top:4px}
+    .pill{border:1px solid var(--line);background:rgba(255,253,247,.8);border-radius:999px;padding:8px 11px;font-weight:800;box-shadow:0 6px 18px rgba(90,62,38,.08)}
+    .card{background:rgba(255,253,247,.88);border:1px solid rgba(234,220,201,.9);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin:14px 16px;overflow:hidden}
+    .hero{position:relative;padding:18px;min-height:230px;background:linear-gradient(180deg,#dceee6,#fff8ec)}
+    .sky{position:absolute;inset:0;background:radial-gradient(circle at 20% 18%,#fff 0 8%,transparent 9%),radial-gradient(circle at 75% 12%,#fff 0 9%,transparent 10%);opacity:.8}
+    .cottage{position:relative;margin:34px auto 0;width:260px;height:160px}
+    .house-body{position:absolute;bottom:0;left:38px;width:184px;height:115px;background:#f9ead1;border:4px solid #8f623c;border-radius:22px 22px 12px 12px}
+    .roof{position:absolute;left:18px;top:0;width:224px;height:92px;background:#59734b;clip-path:polygon(50% 0,100% 78%,89% 78%,89% 100%,11% 100%,11% 78%,0 78%);border-radius:18px}
+    .door{position:absolute;bottom:0;left:104px;width:52px;height:78px;background:#5f7d4c;border:4px solid #8f623c;border-radius:24px 24px 8px 8px}
+    .window{position:absolute;bottom:55px;width:38px;height:34px;background:#fff5bf;border:4px solid #8f623c;border-radius:12px}
+    .window.left{left:58px}.window.right{right:58px}
+    .path{position:absolute;left:108px;bottom:-52px;width:42px;height:68px;background:#d8b991;clip-path:polygon(15% 0,85% 0,100% 100%,0 100%);opacity:.9}
+    .flowers{position:absolute;left:0;right:0;bottom:-4px;text-align:center;font-size:24px;letter-spacing:7px}
+    .cow{position:absolute;right:4px;bottom:8px;width:96px;height:96px;filter:drop-shadow(0 8px 10px rgba(0,0,0,.12))}
+    .cow-body{position:absolute;bottom:2px;left:18px;width:60px;height:50px;background:#b9783d;border-radius:50% 50% 44% 44%}
+    .cow-head{position:absolute;left:12px;top:10px;width:72px;height:62px;background:#c98645;border-radius:50%}
+    .cow-hair{position:absolute;left:16px;top:0;width:64px;height:34px;background:#9c632f;border-radius:50%;box-shadow:0 10px 0 #9c632f}
+    .horn{position:absolute;top:18px;width:28px;height:12px;background:#f4dfbd;border-radius:999px}
+    .horn.l{left:0;transform:rotate(-28deg)}.horn.r{right:0;transform:rotate(28deg)}
+    .cow-face{position:absolute;left:26px;top:38px;width:40px;height:28px;background:#f0caa0;border-radius:50%}
+    .eye{position:absolute;top:31px;width:7px;height:7px;background:#2d2119;border-radius:50%}.eye.l{left:28px}.eye.r{right:28px}
+    .nose{position:absolute;top:50px;width:5px;height:5px;background:#6b3b2b;border-radius:50%}.nose.l{left:38px}.nose.r{right:38px}
+    .flower-crown{position:absolute;left:26px;top:3px;font-size:18px}
+    .speech{position:absolute;right:20px;top:14px;background:#fffdf7;border:1px solid var(--line);border-radius:20px;padding:10px 12px;font-weight:800;font-size:13px;box-shadow:0 8px 20px rgba(90,62,38,.1)}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:12px 16px}
+    .stat{background:rgba(255,253,247,.9);border:1px solid var(--line);border-radius:20px;padding:12px;text-align:center;box-shadow:0 8px 20px rgba(90,62,38,.07)}
+    .stat strong{display:block;font-size:21px}.stat span{font-size:12px;color:var(--muted);font-weight:700}
+    .section-title{display:flex;justify-content:space-between;align-items:end;margin:4px 16px 6px}
+    .section-title h2{margin:0;font-size:20px}.small{font-size:13px;color:var(--muted);font-weight:700}
+    .energy-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .energy{border:2px solid transparent;background:#fff;border-radius:20px;padding:12px;text-align:left;box-shadow:0 8px 18px rgba(90,62,38,.07)}
+    .energy.active{border-color:var(--sage);background:#f1f6e9}
+    .energy b{display:block}.energy span{font-size:12px;color:var(--muted)}
+    .quest{display:flex;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+    .quest:first-child{border-top:0}
+    .check{width:34px;height:34px;border-radius:12px;border:2px solid var(--line);display:grid;place-items:center;background:#fff;flex:0 0 auto;font-weight:900}
+    .quest.done .check{background:var(--sage);border-color:var(--sage);color:#fff}
+    .quest.done .qtitle{text-decoration:line-through;color:var(--muted)}
+    .qmid{flex:1}.qtitle{font-weight:900}.qmeta{font-size:12px;color:var(--muted);margin-top:2px}
+    .reward{font-weight:900;color:#9c6a1e;font-size:13px}
+    .progressbar{height:13px;background:#eee1cf;border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,.7)}
+    .progressfill{height:100%;background:linear-gradient(90deg,var(--sage),#c6d794,var(--gold));width:0%;transition:.25s}
+    .shop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .shop-item{border:1px solid var(--line);background:#fffaf1;border-radius:18px;padding:10px;text-align:center}
+    .shop-item .emoji{font-size:28px}.shop-item b{font-size:12px;display:block}.shop-item span{font-size:12px;color:#9c6a1e;font-weight:900}
+    .formrow{margin-bottom:11px}
+    label{display:block;font-weight:900;margin-bottom:5px}
+    input,textarea,select{width:100%;border:1px solid var(--line);border-radius:16px;background:#fff;padding:12px;color:var(--ink)}
+    .btn{border:0;border-radius:999px;background:#eee1cf;color:var(--ink);padding:12px 14px;font-weight:900}
+    .btn.primary{background:var(--sage);color:#fff}.btn.gold{background:var(--gold);color:#5b3919}.btn.full{width:100%}
+    .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .hidden{display:none!important}
+    nav{position:fixed;left:0;right:0;bottom:0;background:rgba(255,253,247,.92);backdrop-filter:blur(16px);border-top:1px solid var(--line);padding:8px max(8px,env(safe-area-inset-left)) calc(10px + env(safe-area-inset-bottom));display:flex;justify-content:center;z-index:10}
+    .nav-inner{max-width:520px;width:100%;display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+    .navbtn{background:transparent;border:0;border-radius:18px;padding:8px 4px;color:var(--muted);font-size:11px;font-weight:900}
+    .navbtn .ico{font-size:22px;display:block}.navbtn.active{background:#eef4e5;color:var(--sage-dark)}
+    .toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%) translateY(20px);opacity:0;transition:.25s;background:#473425;color:#fff;padding:12px 16px;border-radius:999px;font-weight:900;box-shadow:var(--shadow);z-index:20;white-space:nowrap}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">🏡</div>
+        <div>
+          <h1>Little Haven</h1>
+          <div class="tag">Clean your home. Grow your haven.</div>
+        </div>
+      </div>
+      <div class="pill" id="levelPill">Lv 1</div>
+    </div>
+  </header>
+
+  <section id="home" class="view">
+    <div class="card hero">
+      <div class="sky"></div>
+      <div class="speech" id="mapleSpeech">Hi! I'm Maple 🌼</div>
+      <div class="cottage">
+        <div class="roof"></div><div class="house-body"></div><div class="door"></div>
+        <div class="window left"></div><div class="window right"></div><div class="path"></div>
+        <div class="flowers">🌷🌼🌿🌸</div>
+      </div>
+      <div class="cow">
+        <div class="horn l"></div><div class="horn r"></div><div class="cow-body"></div><div class="cow-head"></div><div class="cow-hair"></div>
+        <div class="flower-crown">🌼</div><div class="eye l"></div><div class="eye r"></div><div class="cow-face"></div><div class="nose l"></div><div class="nose r"></div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><strong id="xp">0</strong><span>XP</span></div>
+      <div class="stat"><strong id="coins">0</strong><span>coins</span></div>
+      <div class="stat"><strong id="streak">0</strong><span>day streak</span></div>
+    </div>
+
+    <div class="card">
+      <div class="section-title" style="margin:0 0 10px">
+        <h2>House Happiness</h2><span class="small" id="happinessText">0%</span>
+      </div>
+      <div class="progressbar"><div class="progressfill" id="happinessFill"></div></div>
+    </div>
+
+    <div class="section-title"><h2>How are you feeling?</h2><span class="small">quests adjust</span></div>
+    <div class="card">
+      <div class="energy-grid" id="energyGrid"></div>
+    </div>
+
+    <div class="section-title"><h2>Today’s Quests</h2><span class="small" id="questCount"></span></div>
+    <div class="card" id="questList"></div>
+  </section>
+
+  <section id="quests" class="view hidden">
+    <div class="section-title"><h2>Cleaning Jobs</h2><span class="small">daily resets</span></div>
+    <div class="card" id="allJobs"></div>
+  </section>
+
+  <section id="haven" class="view hidden">
+    <div class="section-title"><h2>Your Haven</h2><span class="small">decorate with coins</span></div>
+    <div class="card">
+      <p><b>Living Room</b></p>
+      <div style="font-size:54px;text-align:center;line-height:1.8" id="decorDisplay">🛋️ 🪴 🪟</div>
+      <p class="small">Complete quests to earn coins and unlock cozy decorations.</p>
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0">Shop</h2>
+      <div class="shop-grid" id="shopGrid"></div>
+    </div>
+  </section>
+
+  <section id="pet" class="view hidden">
+    <div class="section-title"><h2>Maple</h2><span class="small">your cleaning buddy</span></div>
+    <div class="card" style="text-align:center">
+      <div class="cow" style="position:relative;margin:0 auto;right:auto;bottom:auto;transform:scale(1.5);height:130px"></div>
+      <h2>Maple the Highland Cow</h2>
+      <p>Maple gets happier every time you finish a quest.</p>
+      <div class="progressbar"><div class="progressfill" id="petFill"></div></div>
+      <p class="small" id="petText"></p>
+    </div>
+  </section>
+
+  <section id="add" class="view hidden">
+    <div class="section-title"><h2>Add Quest</h2><span class="small">custom checklist</span></div>
+    <div class="card">
+      <div class="formrow"><label>Quest name</label><input id="newName" placeholder="Ex: Reset bedroom"></div>
+      <div class="formrow"><label>Room</label><input id="newRoom" placeholder="Ex: Bedroom"></div>
+      <div class="formrow"><label>Energy</label><select id="newEnergy"><option>Low</option><option selected>Normal</option><option>High</option><option>Flare Day</option></select></div>
+      <div class="formrow"><label>Checklist items</label><textarea id="newTasks" rows="6" placeholder="Make bed&#10;Put clothes in hamper&#10;Clear nightstand"></textarea></div>
+      <button class="btn primary full" onclick="addQuest()">Save Quest</button>
+    </div>
+    <div class="card">
+      <button class="btn full" onclick="resetToday()">Reset today’s checkmarks</button>
+    </div>
+  </section>
+</div>
+
+<nav>
+  <div class="nav-inner">
+    <button class="navbtn active" onclick="show('home',this)"><span class="ico">🏠</span>Home</button>
+    <button class="navbtn" onclick="show('quests',this)"><span class="ico">✅</span>Quests</button>
+    <button class="navbtn" onclick="show('haven',this)"><span class="ico">🌿</span>Haven</button>
+    <button class="navbtn" onclick="show('pet',this)"><span class="ico">🐮</span>Maple</button>
+    <button class="navbtn" onclick="show('add',this)"><span class="ico">➕</span>Add</button>
+  </div>
+</nav>
+<div class="toast" id="toast"></div>
+
+<script>
+const today = () => new Date().toISOString().slice(0,10);
+const energyModes = [
+  {key:"Great", emoji:"☀️", title:"I feel great!", sub:"Lots of energy"},
+  {key:"Normal", emoji:"🌤️", title:"I'm good", sub:"Normal energy"},
+  {key:"Low", emoji:"🌙", title:"Low energy", sub:"Taking it easy"},
+  {key:"Flare Day", emoji:"💗", title:"Flare day", sub:"Gentle day"}
+];
+
+const defaultQuests = [
+  {id:"make-bed", name:"Make the Bed", room:"Bedroom", energy:"Low", xp:10, coins:5, tasks:["Pull up sheets","Arrange pillows","Put blanket/comforter in place"]},
+  {id:"kitchen-reset", name:"Kitchen Daily Reset", room:"Kitchen", energy:"Normal", xp:25, coins:15, tasks:["Clear counters","Load or wash dishes","Wipe counters","Wipe stove","Take out trash if full","Sweep floor"]},
+  {id:"laundry-starter", name:"Laundry Starter", room:"Laundry", energy:"Low", xp:15, coins:8, tasks:["Gather one load","Start washer","Set reminder to switch"]},
+  {id:"bathroom-wipe", name:"Bathroom Wipe Down", room:"Bathroom", energy:"Normal", xp:20, coins:10, tasks:["Clear counter","Wipe sink","Wipe mirror","Quick toilet clean","Empty trash"]},
+  {id:"trash-run", name:"Whole House Trash Run", room:"Whole House", energy:"Low", xp:15, coins:8, tasks:["Bathroom trash","Kitchen trash","Bedroom trash","Take bag outside"]},
+  {id:"flare-five", name:"Flare Day Five-Minute Rescue", room:"Whole House", energy:"Flare Day", xp:20, coins:12, tasks:["Throw away 5 pieces of trash","Put dishes near sink","Clear one small surface","Drink water","Rest"]},
+  {id:"deep-kitchen", name:"Kitchen Deep Clean", room:"Kitchen", energy:"High", xp:45, coins:25, tasks:["Clear counters","Dishes","Wipe cabinets","Clean microwave","Clean stove","Sweep","Mop"]}
+];
+
+const shop = [
+  {id:"chair", name:"Sage Chair", emoji:"🛋️", cost:120},
+  {id:"plant", name:"Happy Plant", emoji:"🪴", cost:80},
+  {id:"rug", name:"Cozy Rug", emoji:"🧶", cost:100},
+  {id:"lamp", name:"Warm Lamp", emoji:"🛋️", cost:110},
+  {id:"fireplace", name:"Fireplace", emoji:"🔥", cost:250},
+  {id:"flowers", name:"Flowers", emoji:"🌸", cost:60}
+];
+
+let state = JSON.parse(localStorage.getItem("littleHavenState") || "null") || {
+  xp:0, coins:0, streak:0, lastCompleted:"", energy:"Normal", completed:{}, customQuests:[], owned:["chair","plant"], petHappy:35
+};
+
+function allQuests(){ return [...defaultQuests, ...state.customQuests]; }
+function save(){ localStorage.setItem("littleHavenState", JSON.stringify(state)); }
+
+function show(id, btn){
+  document.querySelectorAll(".view").forEach(v=>v.classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
+  document.querySelectorAll(".navbtn").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  render();
+}
+
+function toast(msg){
+  const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),1800);
+}
+
+function todaysQuests(){
+  const e=state.energy;
+  if(e==="Great") return allQuests().filter(q=>["Low","Normal","High"].includes(q.energy));
+  if(e==="Normal") return allQuests().filter(q=>["Low","Normal"].includes(q.energy));
+  if(e==="Low") return allQuests().filter(q=>q.energy==="Low").slice(0,5);
+  return allQuests().filter(q=>q.energy==="Flare Day" || q.energy==="Low").slice(0,4);
+}
+
+function isDone(id){ return state.completed[today()]?.includes(id); }
+
+function completeQuest(id){
+  if(isDone(id)) return;
+  const q=allQuests().find(x=>x.id===id);
+  state.completed[today()] = state.completed[today()] || [];
+  state.completed[today()].push(id);
+  state.xp += q.xp;
+  state.coins += q.coins;
+  state.petHappy = Math.min(100, state.petHappy + 8);
+  if(state.lastCompleted !== today()){
+    state.streak += 1;
+    state.lastCompleted = today();
+  }
+  save();
+  toast(`Quest complete! +${q.xp} XP +${q.coins} coins ✨`);
+  render();
+}
+
+function renderEnergy(){
+  const box=document.getElementById("energyGrid"); box.innerHTML="";
+  energyModes.forEach(m=>{
+    const b=document.createElement("button");
+    b.className="energy"+(state.energy===m.key?" active":"");
+    b.innerHTML=`<b>${m.emoji} ${m.title}</b><span>${m.sub}</span>`;
+    b.onclick=()=>{state.energy=m.key;save();render();toast("Energy mode updated 🌿")};
+    box.appendChild(b);
+  })
+}
+
+function renderQuestList(containerId, quests){
+  const box=document.getElementById(containerId); box.innerHTML="";
+  quests.forEach(q=>{
+    const row=document.createElement("div");
+    row.className="quest"+(isDone(q.id)?" done":"");
+    row.onclick=()=>completeQuest(q.id);
+    row.innerHTML=`<div class="check">${isDone(q.id)?"✓":""}</div>
+      <div class="qmid"><div class="qtitle">${q.name}</div><div class="qmeta">${q.room} • ${q.energy} • ${q.tasks.length} steps</div></div>
+      <div class="reward">+${q.xp} XP<br>+${q.coins} 🪙</div>`;
+    box.appendChild(row);
+  });
+  if(!quests.length) box.innerHTML=`<p class="small">No quests yet. Add your first custom quest.</p>`;
+}
+
+function renderShop(){
+  const grid=document.getElementById("shopGrid"); grid.innerHTML="";
+  shop.forEach(item=>{
+    const owned=state.owned.includes(item.id);
+    const div=document.createElement("button");
+    div.className="shop-item";
+    div.innerHTML=`<div class="emoji">${item.emoji}</div><b>${item.name}</b><span>${owned?"Owned":item.cost+" 🪙"}</span>`;
+    div.onclick=()=>buy(item);
+    grid.appendChild(div);
+  });
+  document.getElementById("decorDisplay").textContent = shop.filter(i=>state.owned.includes(i.id)).map(i=>i.emoji).join(" ") || "🏡";
+}
+
+function buy(item){
+  if(state.owned.includes(item.id)){toast("Already in your haven 🌿");return;}
+  if(state.coins < item.cost){toast("Need more coins 🪙");return;}
+  state.coins -= item.cost; state.owned.push(item.id); save(); toast(`${item.name} unlocked!`); render();
+}
+
+function addQuest(){
+  const name=document.getElementById("newName").value.trim();
+  const room=document.getElementById("newRoom").value.trim() || "Custom";
+  const energy=document.getElementById("newEnergy").value;
+  const tasks=document.getElementById("newTasks").value.split("\n").map(x=>x.trim()).filter(Boolean);
+  if(!name || !tasks.length){toast("Add a name and checklist items");return;}
+  const reward = energy==="High" ? [45,25] : energy==="Flare Day" ? [20,12] : energy==="Low" ? [15,8] : [25,15];
+  state.customQuests.push({id:"custom-"+Date.now(), name, room, energy, xp:reward[0], coins:reward[1], tasks});
+  document.getElementById("newName").value=""; document.getElementById("newRoom").value=""; document.getElementById("newTasks").value="";
+  save(); toast("Quest saved ✨"); render();
+}
+
+function resetToday(){
+  state.completed[today()] = [];
+  save(); toast("Today reset"); render();
+}
+
+function render(){
+  document.getElementById("xp").textContent=state.xp;
+  document.getElementById("coins").textContent=state.coins;
+  document.getElementById("streak").textContent=state.streak;
+  document.getElementById("levelPill").textContent="Lv "+(Math.floor(state.xp/100)+1);
+  const tq=todaysQuests();
+  const done=tq.filter(q=>isDone(q.id)).length;
+  const happy=tq.length ? Math.round(done/tq.length*100) : 0;
+  document.getElementById("happinessText").textContent=happy+"%";
+  document.getElementById("happinessFill").style.width=happy+"%";
+  document.getElementById("questCount").textContent=`${done}/${tq.length} done`;
+  document.getElementById("mapleSpeech").textContent = happy>=100 ? "Your haven sparkles! ✨" : state.energy==="Flare Day" ? "Gentle day, okay? 💗" : "Let's grow our haven!";
+  renderEnergy();
+  renderQuestList("questList", tq);
+  renderQuestList("allJobs", allQuests());
+  renderShop();
+  document.getElementById("petFill").style.width=state.petHappy+"%";
+  document.getElementById("petText").textContent=`Maple happiness: ${state.petHappy}%`;
+  save();
+}
+render();
+</script>
+</body>
+</html>
