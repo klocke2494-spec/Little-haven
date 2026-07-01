@@ -1,0 +1,9 @@
+{
+  "name": "Clean Quest",
+  "short_name": "CleanQuest",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#fbf7f2",
+  "theme_color": "#9b6bff",
+  "icons": []
+}
